@@ -1,0 +1,824 @@
+#include<iostream>
+#include<ctime>
+#include<iomanip>
+#include<Windows.h>
+using namespace std;
+
+int board[4][4];
+int dirline[] = { 1, 0, -1, 0 };
+int dircolumn[] = { 0, 1, 0, -1 };
+int score = 0;
+
+void generate()
+{
+	int row, column;
+	int a = 0;
+	while (a == 0)
+	{
+		row = rand() % 4;
+		column = rand() % 4;
+		if (board[row][column] == 0)
+		{
+			board[row][column] = (rand() % 2 + 1) * 2;
+			a = 1;
+		}
+	}
+}
+
+void newgame()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			board[i][j] = 0;
+		}
+	}
+	generate();
+}
+
+HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
+
+void Color(int y)
+{
+	SetConsoleTextAttribute(out, y);
+}
+
+void gamename()
+{
+	Color(170);
+	cout << "************************************************************************************************************************\n";
+	Color(170); cout << "**"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t      "; Color(170); cout << "**\n";
+	Color(170); cout << "**"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t      "; Color(170); cout << "**\n";
+	Color(170);  cout << "**"; Color(7);
+	Color(5);
+	cout << "          ******        ****      *       * **********\t    *****          *       *         * *********      "; Color(170); cout << "**"; Color(7); cout << "\n";
+	Color(170);  cout << "**"; Color(7);
+	Color(6);
+	cout << "         *       *   *        *   *       * *        *\t  *      *        * *      * *     * * *\t      "; Color(170); cout << "**"; Color(7); cout << "\n";
+	Color(170);  cout << "**"; Color(7);
+	Color(2);
+	cout << "                *   *          *  *       * *        *\t *               *   *     *  *   *  * *\t      "; Color(170); cout << "**"; Color(7); cout << "\n";
+	Color(170);  cout << "**"; Color(7);
+	Color(14);
+	cout << "              *    *            * ********* **********\t*               *******    *    *    * *********      "; Color(170); cout << "**"; Color(7); cout << "\n";
+	Color(170);  cout << "**"; Color(7);
+	Color(3);
+	cout << "            *       *          *          * *        *\t *             *       *   *         * *\t      "; Color(170); cout << "**"; Color(7); cout << "\n";
+	Color(170);  cout << "**"; Color(7);
+	Color(1);
+	cout << "          *          *        *           * *        *\t  *     ****  *         *  *         * *\t      "; Color(170); cout << "**"; Color(7); cout << "\n";
+	Color(170);  cout << "**"; Color(7);
+	Color(11);
+	cout << "        **********      ****              * **********\t    *****  * *           * *         * *********      "; Color(170); cout << "**"; Color(7); cout << "\n";
+	Color(170);  cout << "**"; Color(7);
+	cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t      "; Color(170); cout << "**\n";
+	Color(170); cout << "**"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t      "; Color(170); cout << "**\n";
+	Color(170);
+	cout << "************************************************************************************************************************\n\n\n";
+	Color(7);
+}
+
+void quitgame()
+{
+	system("cls");
+	cout << "\n";
+	Color(187);
+	cout << "************************************************************************************************************************\n";
+	Color(7);
+	Color(187);  cout << "**"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t      ";  Color(187);  cout << "**"; Color(7); cout << endl;
+	Color(187);  cout << "**"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t      ";  Color(187);  cout << "**"; Color(7); cout << endl;
+	Color(187);  cout << "**"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t      ";  Color(187);  cout << "**"; Color(7); cout << endl;
+	Color(187);  cout << "**"; Color(5); cout << "\t\t         ********* *      *       *       **     *    *   *   ***\t\t\t\t      "; Color(187); cout << "**"; Color(7); cout << "\n";
+	Color(187);  cout << "**"; Color(5); cout << "\t\t\t     *     *      *      * *      * *    *    *  *  *     *\t\t\t\t      ";     Color(187); cout << "**"; Color(7); cout << "\n";
+	Color(187);  cout << "**"; Color(5); cout << "\t\t\t     *     *      *     *   *     *  *   *    * *     *\t\t\t\t\t      ";       Color(187); cout << "**"; Color(7); cout << "\n";
+	Color(187);  cout << "**"; Color(5); cout << "\t\t\t     *     ********    *******    *   *  *    **       *\t\t\t\t      ";        Color(187); cout << "**"; Color(7); cout << "\n";
+	Color(187);  cout << "**"; Color(11); cout << "\t\t\t     *     *      *   *       *   *    * *    * *        *\t\t\t\t      ";     Color(187); cout << "**"; Color(7); cout << "\n";
+	Color(187);  cout << "**"; Color(11); cout << "\t\t\t     *     *      *  *         *  *     **    *  *  *     *\t\t\t\t      ";    Color(187); cout << "**"; Color(7); cout << "\n";
+	Color(187);  cout << "**"; Color(11); cout << "\t\t\t     *     *      * *           * *     **    *   *   ***\t\t\t\t      ";      Color(187); cout << "**"; Color(7); cout << "\n";
+	Color(187);  cout << "**"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t      "; Color(187); cout << "**"; Color(7); cout << "\n";
+	Color(187);  cout << "**"; Color(5); cout << "     *********       ****      *****        *****   *              *     *           * * **     *     *****\t      ";   Color(187); cout << "**"; Color(7); cout << "\n";
+	Color(187);  cout << "**"; Color(5); cout << "     *             *      *    *     *      *     * *             * *      *       *   * * *    *   *      *\t      ";  Color(187); cout << "**"; Color(7); cout << "\n";
+	Color(187);  cout << "**"; Color(5); cout << "     *           *          *  *     *      *     * *            *   *       *   *     * *  *   *  *        \t      ";  Color(187); cout << "**"; Color(7); cout << "\n";
+	Color(187);  cout << "**"; Color(5); cout << "     *********  *            * *****        *****   *           *******        *       * *   *  * *         \t      ";  Color(187); cout << "**"; Color(7); cout << "\n";
+	Color(187);  cout << "**"; Color(11); cout << "     *           *          *  **           *       *          *       *       *       * *    * *  *        \t      "; Color(187); cout << "**"; Color(7); cout << "\n";
+	Color(187);  cout << "**"; Color(11); cout << "     *             *      *    *  *         *       *         *         *      *       * *     **   *     *****     "; Color(187); cout << "**"; Color(7); cout << "\n";
+	Color(187);  cout << "**"; Color(11); cout << "     *               ****      *    *       *       ******** *           *     *       * *     **     *****   *     "; Color(187); cout << "**"; Color(7); cout << "\n";
+	Color(187);  cout << "**"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t      ";  Color(187);  cout << "**"; Color(7); cout << endl;
+	Color(187);  cout << "**"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t      ";  Color(187);  cout << "**"; Color(7); cout << endl;
+	Color(187);  cout << "**"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t      ";  Color(187);  cout << "**"; Color(7); cout << endl;
+	Color(187);
+	cout << "************************************************************************************************************************\n\n\n";
+	Color(7);
+	cout << "\n\n\n";
+	system("pause");
+}
+
+void credits()
+{
+	system("cls");
+
+	Color(238);
+	cout << "************************************************************************************************************************\n";
+	cout << "************************************************************************************************************************\n";
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t                     **********************************************************************\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t      *\t\t\t\t\t\t\t\t\t *\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(7);
+	Color(238);  cout << "****"; Color(7); cout << "                           *            Game name : 2048 tiles game                         *                   "; Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "                            *           Created by : Wahaj Faisal                          *                    "; Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "                             *          Roll number : 19F-0361                            *                     "; Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "                              *         Date created : 15/01/2021                        *                      "; Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "                               *        Official Email : f190361@nu.edu.pk              *                       "; Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "                                *       Personal Email : wahajfaixal786@gmail.com      *                        "; Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "                                 *      Contact : 03028928766                         *                         "; Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t      *\t\t\t\t\t\t\t *\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t       **************************************************\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);
+	cout << "************************************************************************************************************************\n";
+	cout << "************************************************************************************************************************\n";
+
+	Color(0);
+	system("pause");
+	Color(7);
+}
+
+void credits2()
+{
+	system("cls");
+
+
+	Color(238);
+	cout << "************************************************************************************************************************\n";
+	cout << "************************************************************************************************************************\n";
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(3); cout << "  PRESS ANY KEY TO GO BACK\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t                     **********************************************************************\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t      *\t\t\t\t\t\t\t\t\t *\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(7);
+	Color(238);  cout << "****"; Color(7); cout << "                           *            Game name : 2048 tiles game                         *                   "; Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "                            *           Created by : Wahaj Faisal                          *                    "; Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "                             *          Roll number : 19F-0361                            *                     "; Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "                              *         Date created : 15/01/2021                        *                      "; Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "                               *        Official Email : f190361@nu.edu.pk              *                       "; Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "                                *       Personal Email : wahajfaixal786@gmail.com      *                        "; Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "                                 *      Contact : 03028928766                         *                         "; Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t      *\t\t\t\t\t\t\t *\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t       **************************************************\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);  cout << "****"; Color(7); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    ";  Color(238);  cout << "****"; Color(7); cout << endl;
+	Color(238);
+	cout << "************************************************************************************************************************\n";
+	cout << "************************************************************************************************************************\n";
+
+	Color(0);
+	system("pause");
+	Color(7);
+
+
+}
+
+void UI()
+{
+	system("cls");
+
+	cout << "_____________________________________\n";
+	cout << "|        |        |        |        |\t\t\t\t_____________\n";
+	cout << "|  "; if (board[0][0] == 0)
+	{
+		cout << setw(4) << " ";
+	}
+	else
+	{
+		cout << setw(4) << board[0][0];
+	}
+	cout << "  |  "; if (board[0][1] == 0)
+	{
+		cout << setw(4) << " ";
+	}
+	else
+	{
+		cout << setw(4) << board[0][1];
+	}
+	cout << "  |  "; if (board[0][2] == 0)
+	{
+		cout << setw(4) << " ";
+	}
+	else
+	{
+		cout << setw(4) << board[0][2];
+	}
+	cout << "  |  ";	if (board[0][3] == 0)
+	{
+		cout << setw(4) << " ";
+	}
+	else
+	{
+		cout << setw(4) << board[0][3];
+	}
+	cout << "  |\t\t\t\t|           |\n";
+	cout << "|________|________|________|________|\t\t\tSCORE\t|";
+	if (score == 0)
+	{
+		Color(7);
+		cout << setw(11) << score;
+	}
+	else if (score > 0 && score < 100)
+	{
+		Color(14);
+		cout << setw(11) << score;
+	}
+	else if (score >= 100 && score < 200)
+	{
+		Color(1);
+		cout << setw(11) << score;
+	}
+	else if (score >= 200 && score < 300)
+	{
+		Color(2);
+		cout << setw(11) << score;
+	}
+	else if (score >= 300 && score < 400)
+	{
+		Color(3);
+		cout << setw(11) << score;
+	}
+	else if (score >= 400 && score < 500)
+	{
+		Color(11);
+		cout << setw(11) << score;
+	}
+	else if (score >= 500 && score < 600)
+	{
+		Color(5);
+		cout << setw(11) << score;
+	}
+	else if (score >= 600 && score < 700)
+	{
+		Color(11);
+		cout << setw(11) << score;
+	}
+	else if (score >= 700 && score < 800)
+	{
+		Color(9);
+		cout << setw(11) << score;
+	}
+	else if (score >= 800 && score < 900)
+	{
+		Color(6);
+		cout << setw(11) << score;
+	}
+	else if (score >= 900 && score < 1000)
+	{
+		Color(2);
+		cout << setw(11) << score;
+	}
+	else if (score >= 1000 && score < 1100)
+	{
+		Color(9);
+		cout << setw(11) << score;
+	}
+	else if (score >= 1100 && score < 1200)
+	{
+		Color(10);
+		cout << setw(11) << score;
+	}
+	else if (score >= 1200 && score < 1300)
+	{
+		Color(11);
+		cout << setw(11) << score;
+	}
+	else if (score >= 1300 && score < 1400)
+	{
+		Color(2);
+		cout << setw(11) << score;
+	}
+	else if (score >= 1400 && score < 1500)
+	{
+		Color(13);
+		cout << setw(11) << score;
+	}
+	else if (score >= 1500 && score < 1600)
+	{
+		Color(14);
+		cout << setw(11) << score;
+	}
+	else if (score >= 1600 && score < 1700)
+	{
+		Color(1);
+		cout << setw(11) << score;
+	}
+	else if (score >= 1700 && score < 1800)
+	{
+		Color(3);
+		cout << setw(11) << score;
+	}
+	else if (score >= 1800 && score < 1900)
+	{
+		Color(5);
+		cout << setw(11) << score;
+	}
+	else if (score >= 1900 && score < 2000)
+	{
+		Color(6);
+		cout << setw(11) << score;
+	}
+	else if (score >= 2000 && score < 2100)
+	{
+		Color(9);
+		cout << setw(11) << score;
+	}
+	else if (score >= 2100 && score < 2200)
+	{
+		Color(10);
+		cout << setw(11) << score;
+	}
+	else if (score >= 2200 && score < 2300)
+	{
+		Color(1);
+		cout << setw(11) << score;
+	}
+	else if (score >= 2300 && score < 2400)
+	{
+		Color(2);
+		cout << setw(11) << score;
+	}
+	else if (score >= 2400 && score < 2500)
+	{
+		Color(3);
+		cout << setw(11) << score;
+	}
+	else if (score >= 2500 && score < 2600)
+	{
+		Color(5);
+		cout << setw(11) << score;
+	}
+	else if (score >= 2600 && score < 2700)
+	{
+		Color(6);
+		cout << setw(11) << score;
+	}
+	else
+	{
+		Color(4);
+		cout << setw(11) << score;
+	}
+
+	Color(7); cout << "|\n";
+	cout << "|        |        |        |        |\t\t\t\t|___________|\n";
+	cout << "|  "; if (board[1][0] == 0)
+	{
+		cout << setw(4) << " ";
+	}
+	else
+	{
+		cout << setw(4) << board[1][0];
+	}
+	cout << "  |  "; if (board[1][1] == 0)
+	{
+		cout << setw(4) << " ";
+	}
+	else
+	{
+		cout << setw(4) << board[1][1];
+	}
+	cout << "  |  "; if (board[1][2] == 0)
+	{
+		cout << setw(4) << " ";
+	}
+	else
+	{
+		cout << setw(4) << board[1][2];
+	}
+	cout << "  |  "; if (board[1][3] == 0)
+	{
+		cout << setw(4) << " ";
+	}
+	else
+	{
+		cout << setw(4) << board[1][3];
+	}
+	cout << "  |\n";
+	cout << "|________|________|________|________|\n";
+	cout << "|        |        |        |        |\t\t\tPress w for up      Press s for down\n";
+	cout << "|  "; if (board[2][0] == 0)
+	{
+		cout << setw(4) << " ";
+	}
+	else
+	{
+		cout << setw(4) << board[2][0];
+	}
+	cout << "  |  "; if (board[2][1] == 0)
+	{
+		cout << setw(4) << " ";
+	}
+	else
+	{
+		cout << setw(4) << board[2][1];
+	}
+	cout << "  |  "; if (board[2][2] == 0)
+	{
+		cout << setw(4) << " ";
+	}
+	else
+	{
+		cout << setw(4) << board[2][2];
+	}
+	cout << "  |  "; if (board[2][3] == 0)
+	{
+		cout << setw(4) << " ";
+	}
+	else
+	{
+		cout << setw(4) << board[2][3];
+	}
+	cout << "  |\t\t\tPress a for left    Press d for right\n";
+	cout << "|________|________|________|________|\n";
+	cout << "|        |        |        |        |\t\t\tPress c to view game credits\n";
+	cout << "|  "; if (board[3][0] == 0)
+	{
+		cout << setw(4) << " ";
+	}
+	else
+	{
+		cout << setw(4) << board[3][0];
+	}
+	cout << "  |  "; if (board[3][1] == 0)
+	{
+		cout << setw(4) << " ";
+	}
+	else
+	{
+		cout << setw(4) << board[3][1];
+	}
+	cout << "  |  "; if (board[3][2] == 0)
+	{
+		cout << setw(4) << " ";
+	}
+	else
+	{
+		cout << setw(4) << board[3][2];
+
+	}
+	cout << "  |  "; if (board[3][3] == 0)
+	{
+		cout << setw(4) << " ";
+	}
+	else
+	{
+		cout << setw(4) << board[3][3];
+	}
+	cout << "  |\t\t\tPress q to quit the game \n";
+	cout << "|________|________|________|________|\t\t\tPress n to begin a new game\n";
+}
+
+bool candomove(int line, int column, int nextline, int nextcolumn)
+{
+	if (nextline < 0 || nextcolumn < 0 || nextline >= 4 || nextcolumn >= 4
+		|| board[line][column] != board[nextline][nextcolumn] && board[nextline][nextcolumn] != 0)
+	{
+		return false;
+	}
+	return true;
+}
+
+void applymove(int direction)
+{
+	static int wincheck = 0;
+	if (wincheck == 0)
+	{
+		if (board[0][0] == 2048 || board[0][1] == 2048 || board[0][2] == 2048 || board[0][3] == 2048 || board[1][0] == 2048 || board[1][1] == 2048 || board[1][2] == 2048 || board[1][3] == 2048 || board[2][0] == 2048 || board[2][1] == 2048 || board[2][2] == 2048 || board[2][3] == 2048 || board[3][0] == 2048 || board[3][1] == 2048 || board[3][2] == 2048 || board[3][3] == 2048)
+		{
+			wincheck = 1;
+			system("cls");
+			cout << "YOU WON! You can still keep playing for higher score\n";
+			system("pause");
+		}
+	}
+	if (board[0][0] != board[0][1] && board[0][0] != board[1][0] && board[0][0] != 0 && board[0][1] != board[0][2] && board[0][1] != board[1][1] && board[0][1] != board[0][0] && board[0][1] != 0 && board[0][2] != board[0][3] && board[0][2] != board[1][2] && board[0][2] != board[0][1] && board[0][2] != 0 && board[0][3] != board[1][3] && board[0][3] != board[0][2] && board[0][3] != 0 && board[1][0] != board[1][1] && board[1][0] != board[0][0] && board[1][0] != board[2][0] && board[1][0] != 0 && board[1][1] != board[0][1] && board[1][1] != board[1][2] && board[1][1] != board[2][1] && board[1][1] != board[1][0] && board[1][1] != 0 && board[1][2] != board[0][2] && board[1][2] != board[1][3] && board[1][2] != board[2][2] && board[1][2] != board[1][1] && board[1][2] != 0 && board[1][3] != board[0][3] && board[1][3] != board[1][2] && board[1][3] != board[2][3] && board[1][3] != 0 && board[2][0] != board[1][0] && board[2][0] != board[2][1] && board[2][0] != board[3][0] && board[2][0] != 0 && board[2][1] != board[1][1] && board[2][1] != board[2][2] && board[2][1] != board[3][1] && board[2][1] != board[2][0] && board[2][1] != 0 && board[2][2] != board[1][2] && board[2][2] != board[2][3] && board[2][2] != board[3][2] && board[2][2] != board[2][1] && board[2][2] != 0 && board[2][3] != board[3][3] && board[2][3] != board[1][3] && board[2][3] != board[2][2] && board[2][3] != 0 && board[3][0] != board[2][0] && board[3][0] != board[3][1] && board[3][0] != 0 && board[3][1] != board[3][0] && board[3][1] != board[3][2] && board[3][1] != board[2][1] && board[3][1] != 0 && board[3][2] != board[2][2] && board[3][2] != board[3][1] && board[3][2] != board[3][3] && board[3][2] != 0 && board[3][3] != board[2][3] && board[3][3] != board[3][2] && board[3][3] != 0)
+	{
+		system("cls");
+		Color(255);
+		cout << "************************************************************************************************************************\n";
+		cout << "************************************************************************************************************************\n";
+		Color(4);
+		Color(255); cout << "****"; Color(4); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    "; Color(255); cout << "****\n"; Color(4);
+		Color(255); cout << "****"; Color(4); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    "; Color(255); cout << "****\n"; Color(4);
+		Color(255); cout << "****"; Color(4); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    "; Color(255); cout << "****\n"; Color(4);
+		Color(255); cout << "****"; Color(4); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    "; Color(255); cout << "****\n"; Color(4);
+		Color(255); cout << "****"; Color(4); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    "; Color(255); cout << "****\n"; Color(4);
+		Color(255); cout << "****"; Color(4); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    "; Color(255); cout << "****\n"; Color(4);
+		Color(255); cout << "****"; Color(4); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    "; Color(255); cout << "****\n"; Color(4);
+		Color(255); cout << "****"; Color(4); cout << "\t\t   *       *      ****      *       *   *             ****         ***   *******\t\t    "; Color(255); cout << "****\n"; Color(4);
+		Color(255); cout << "****"; Color(4); cout << "\t\t    *     *     *      *    *       *   *           *      *     *     * *\t\t\t    "; Color(255); cout << "****\n"; Color(4);
+		Color(255); cout << "****"; Color(4); cout << "\t\t     *   *    *          *  *       *   *         *          *    *      *\t\t\t    "; Color(255); cout << "****\n"; Color(4);
+		Color(255); cout << "****"; Color(4); cout << "\t\t       *     *            * *       *   *        *            *     *    *******\t\t    "; Color(255); cout << "****\n"; Color(4);
+		Color(255); cout << "****"; Color(4); cout << "\t\t       *      *          *  *       *   *         *          *        *  *\t\t\t    "; Color(255); cout << "****\n"; Color(4);
+		Color(255); cout << "****"; Color(4); cout << "\t\t       *        *      *    *       *   *           *      *     *     * *\t\t\t    "; Color(255); cout << "****\n"; Color(4);
+		Color(255); cout << "****"; Color(4); cout << "\t\t       *          ****      *********   ********      ****         ***   *******\t\t    "; Color(255); cout << "****\n"; Color(4);
+		Color(255); cout << "****"; Color(4); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    "; Color(255); cout << "****\n"; Color(4);
+		Color(255); cout << "****"; Color(4); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    "; Color(255); cout << "****\n"; Color(4);
+		Color(255); cout << "****"; Color(4); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    "; Color(255); cout << "****\n"; Color(4);
+		Color(255); cout << "****";
+		Color(7);
+		cout << "\tYour final score is:  ";
+		cout << " ___________"; cout << "\t\t\t\t\t\t\t\t\t    "; Color(255); cout << "****\n";
+		Color(255); cout << "****"; Color(7); cout << "\t\t\t      |           |"; cout << "\t\t\t\t\t\t\t\t\t    "; Color(255); cout << "****\n";
+		Color(255); cout << "****"; Color(7); cout << "\t\t\t      |";
+
+		if (score == 0)
+		{
+			Color(7);
+			cout << setw(11) << score;
+		}
+		else if (score > 0 && score < 100)
+		{
+			Color(14);
+			cout << setw(11) << score;
+		}
+		else if (score >= 100 && score < 200)
+		{
+			Color(1);
+			cout << setw(11) << score;
+		}
+		else if (score >= 200 && score < 300)
+		{
+			Color(2);
+			cout << setw(11) << score;
+		}
+		else if (score >= 300 && score < 400)
+		{
+			Color(3);
+			cout << setw(11) << score;
+		}
+		else if (score >= 400 && score < 500)
+		{
+			Color(11);
+			cout << setw(11) << score;
+		}
+		else if (score >= 500 && score < 600)
+		{
+			Color(5);
+			cout << setw(11) << score;
+		}
+		else if (score >= 600 && score < 700)
+		{
+			Color(11);
+			cout << setw(11) << score;
+		}
+		else if (score >= 700 && score < 800)
+		{
+			Color(9);
+			cout << setw(11) << score;
+		}
+		else if (score >= 800 && score < 900)
+		{
+			Color(6);
+			cout << setw(11) << score;
+		}
+		else if (score >= 900 && score < 1000)
+		{
+			Color(2);
+			cout << setw(11) << score;
+		}
+		else if (score >= 1000 && score < 1100)
+		{
+			Color(9);
+			cout << setw(11) << score;
+		}
+		else if (score >= 1100 && score < 1200)
+		{
+			Color(10);
+			cout << setw(11) << score;
+		}
+		else if (score >= 1200 && score < 1300)
+		{
+			Color(11);
+			cout << setw(11) << score;
+		}
+		else if (score >= 1300 && score < 1400)
+		{
+			Color(2);
+			cout << setw(11) << score;
+		}
+		else if (score >= 1400 && score < 1500)
+		{
+			Color(13);
+			cout << setw(11) << score;
+		}
+		else if (score >= 1500 && score < 1600)
+		{
+			Color(14);
+			cout << setw(11) << score;
+		}
+		else if (score >= 1600 && score < 1700)
+		{
+			Color(1);
+			cout << setw(11) << score;
+		}
+		else if (score >= 1700 && score < 1800)
+		{
+			Color(3);
+			cout << setw(11) << score;
+		}
+		else if (score >= 1800 && score < 1900)
+		{
+			Color(5);
+			cout << setw(11) << score;
+		}
+		else if (score >= 1900 && score < 2000)
+		{
+			Color(6);
+			cout << setw(11) << score;
+		}
+		else if (score >= 2000 && score < 2100)
+		{
+			Color(9);
+			cout << setw(11) << score;
+		}
+		else if (score >= 2100 && score < 2200)
+		{
+			Color(10);
+			cout << setw(11) << score;
+		}
+		else if (score >= 2200 && score < 2300)
+		{
+			Color(1);
+			cout << setw(11) << score;
+		}
+		else if (score >= 2300 && score < 2400)
+		{
+			Color(2);
+			cout << setw(11) << score;
+		}
+		else if (score >= 2400 && score < 2500)
+		{
+			Color(3);
+			cout << setw(11) << score;
+		}
+		else if (score >= 2500 && score < 2600)
+		{
+			Color(5);
+			cout << setw(11) << score;
+		}
+		else if (score >= 2600 && score < 2700)
+		{
+			Color(6);
+			cout << setw(11) << score;
+		}
+		else
+		{
+			Color(4);
+			cout << setw(11) << score;
+		}
+
+		Color(7);
+		cout << "|"; cout << "\t\t\t\t\t\t\t\t\t    "; Color(255); cout << "****\n";
+		Color(255); cout << "****"; Color(7); cout << "\t\t\t      |___________|"; cout << "\t\t\t\t\t\t\t\t\t    "; Color(255); cout << "****\n";
+		Color(255); cout << "****"; Color(4); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    "; Color(255); cout << "****\n"; Color(4);
+		Color(255); cout << "****"; Color(4); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    "; Color(255); cout << "****\n"; Color(4);
+		Color(255); cout << "****"; Color(4); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    "; Color(255); cout << "****\n"; Color(4);
+		Color(255); cout << "****"; Color(4); cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t    "; Color(255); cout << "****\n"; Color(4);
+		Color(255);
+		cout << "************************************************************************************************************************\n";
+		cout << "************************************************************************************************************************\n";
+		Color(7);
+		system("pause");
+		system("cls");
+		score = 0;
+		newgame();
+	}
+	else
+	{
+		int startline = 0, startcolumn = 0;
+		int linestep = 1, columnstep = 1;
+
+		if (direction == 0)
+		{
+			startline = 3;
+			linestep = -1;
+		}
+		if (direction == 1)
+		{
+			startcolumn = 3;
+			columnstep = -1;
+		}
+
+		int movepossible = 0;
+		int canaddpiece = 0;
+		do
+		{
+			movepossible = 0;
+			for (int i = startline; i >= 0 && i < 4; i += linestep)
+				for (int j = startcolumn; j >= 0 && j < 4; j += columnstep)
+				{
+					int nextI = i + dirline[direction];
+					int nextJ = j + dircolumn[direction];
+					if (board[i][j] && candomove(i, j, nextI, nextJ))
+					{
+						board[nextI][nextJ] += board[i][j];
+						if (!candomove(i, j, nextI, nextJ))
+						{
+							score = score + board[nextI][nextJ];
+						}
+						board[i][j] = 0;
+						movepossible = canaddpiece = 1;
+					}
+				}
+		} while (movepossible);
+		if (canaddpiece)
+		{
+			generate();
+		}
+	}
+}
+
+int main()
+{
+	gamename();
+	string check;
+	int option;
+	cout << "PRESS 1 TO START THE GAME\n";
+	cout << "PRESS 2 FOR GAME CREDITS\n";
+	cout << "PRESS ANY OTHER KEY TO EXIT THE GAME\n";
+	cin >> option;
+
+	switch (option)
+	{
+	case 1:
+		srand(time(0));
+		char commandtodir[120];
+		commandtodir['s'] = 0;
+		commandtodir['d'] = 1;
+		commandtodir['w'] = 2;
+		commandtodir['a'] = 3;
+		newgame();
+		while (true)
+		{
+			UI();
+			char command;
+			cin >> command;
+			if (command == 'q' || command == 'Q')
+			{
+				quitgame();
+				break;
+			}
+			else if (command == 'n' || command == 'N')
+			{
+				system("cls");
+				score = 0;
+				newgame();
+			}
+			else if (command == 'c' || command == 'C')
+			{
+				credits2();
+			}
+			else if (command == 'w' || command == 'W' || command == 'a' || command == 'A' || command == 's' || command == 'S' || command == 'd' || command == 'D')
+			{
+				int currentdirection = commandtodir[command];
+				applymove(currentdirection);
+			}
+			else
+			{
+				cout << "INVALID INPUT\n";
+				system("pause");
+			}
+		}
+		return 0;
+		break;
+	case 2:
+		credits();
+		break;
+		return 0;
+	default:
+		Color(5);
+		cout << "You opted to exit the game!\n";
+		Color(0);
+		system("pause");
+		Color(7);
+	}
+}
